@@ -1,0 +1,69 @@
+/* Tampilan ala Soft UI Dashboard di atas Bootstrap 5.3.
+   Nama class sengaja disamakan (sidenav, bg-gradient-*, nav-link) supaya gampang
+   diganti dengan aset Soft UI Dashboard asli kalau mau. */
+:root{
+  --su-text:#344767; --su-muted:#67748e; --su-bg:#f8f9fa; --su-line:#e9ecef;
+  --su-primary:linear-gradient(310deg,#7928ca 0%,#ff0080 100%);
+  --su-dark:linear-gradient(310deg,#141727 0%,#3a416f 100%);
+  --su-info:linear-gradient(310deg,#2152ff 0%,#21d4fd 100%);
+  --su-success:linear-gradient(310deg,#17ad37 0%,#98ec2d 100%);
+  --su-warning:linear-gradient(310deg,#f53939 0%,#fbcf33 100%);
+  --su-shadow:0 20px 27px 0 rgba(0,0,0,.05);
+  --bs-body-font-family:'Open Sans',system-ui,sans-serif; --bs-body-color:var(--su-text);
+  --bs-primary:#cb0c9f; --bs-primary-rgb:203,12,159; --bs-link-color:#cb0c9f;
+}
+body{background:var(--su-bg);font-size:.875rem}
+h1,h2,h3,h4,h5,h6{font-weight:700;color:#344767}
+.text-muted{color:var(--su-muted)!important}
+
+.sidenav{position:fixed;top:0;bottom:0;left:0;width:250px;margin:1rem;padding:1rem .75rem;background:#fff;border-radius:1rem;box-shadow:var(--su-shadow);overflow-y:auto;z-index:1030;transition:transform .2s}
+.sidenav .brand{display:flex;align-items:center;gap:.6rem;padding:.25rem .75rem 1rem;border-bottom:1px solid var(--su-line);margin-bottom:.75rem;font-weight:700;color:var(--su-text);text-decoration:none}
+.sidenav .brand i{width:2rem;height:2rem;border-radius:.5rem;background:var(--su-primary);color:#fff;display:grid;place-items:center}
+.sidenav .heading{padding:.75rem .75rem .25rem;font-size:.75rem;font-weight:700;color:var(--su-muted)}
+.sidenav .nav-link{display:flex;align-items:center;gap:.65rem;padding:.5rem .75rem;border-radius:.5rem;color:var(--su-text);font-weight:600;margin-bottom:2px}
+.sidenav .nav-link .ico{width:2rem;height:2rem;border-radius:.5rem;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,.12);display:grid;place-items:center;color:#344767;flex:none}
+.sidenav .nav-link.active{background:#fff;box-shadow:var(--su-shadow)}
+.sidenav .nav-link.active .ico{background:var(--su-primary);color:#fff;box-shadow:none}
+.main{margin-left:282px;padding:1rem 1.5rem 2rem}
+.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem}
+.topbar h5{margin:0}
+.topbar .menu-btn{display:none}
+
+.card{border:0;border-radius:1rem;box-shadow:var(--su-shadow)}
+.card-header{background:transparent;border:0;padding:1.25rem 1.5rem .5rem}
+.card-body{padding:1rem 1.5rem 1.5rem}
+.table{--bs-table-bg:transparent}
+.table thead th{font-size:.72rem;font-weight:700;color:var(--su-muted);border-bottom:1px solid var(--su-line);white-space:nowrap}
+.table td{vertical-align:middle;border-color:var(--su-line)}
+
+.btn{border-radius:.5rem;font-weight:700;font-size:.75rem;padding:.6rem 1.25rem}
+.btn-gradient{background:var(--su-primary);color:#fff;border:0;box-shadow:0 3px 5px -1px rgba(0,0,0,.09),0 2px 3px -1px rgba(0,0,0,.07)}
+.btn-gradient:hover{color:#fff;filter:brightness(1.08)}
+.btn-gradient:disabled{opacity:.5}
+.btn-soft{background:#fff;border:1px solid var(--su-line);color:var(--su-text)}
+.btn-soft:hover{background:#f6f7f9}
+.btn-sm{padding:.4rem .8rem}
+.form-control,.form-select{border-radius:.5rem;font-size:.875rem;border-color:#d2d6da}
+.form-control:focus,.form-select:focus{border-color:#e293d3;box-shadow:0 0 0 2px rgba(203,12,159,.15)}
+.form-label{font-weight:700;font-size:.75rem;color:var(--su-text)}
+.form-text{font-size:.75rem}
+.alert{border:0;border-radius:.75rem;color:#fff;font-weight:600}
+.alert-success{background:var(--su-success)} .alert-danger{background:var(--su-warning)} .alert-info{background:var(--su-info)}
+.alert ul{margin:0;padding-left:1.1rem}
+.badge{font-weight:700;border-radius:.4rem;padding:.4em .7em}
+.badge-ok{background:var(--su-success);color:#fff} .badge-err{background:var(--su-warning);color:#fff} .badge-dup{background:#8392ab;color:#fff} .badge-new{background:var(--su-info);color:#fff}
+
+.stat{display:flex;align-items:center;justify-content:space-between}
+.stat .num{font-size:1.5rem;font-weight:700}
+.stat .ico{width:3rem;height:3rem;border-radius:.75rem;display:grid;place-items:center;color:#fff;font-size:1.25rem}
+.petugas-list{display:flex;flex-direction:column;gap:2px;margin:0;padding:0;list-style:none}
+.petugas-list li:first-child{font-weight:700}
+.tarif-info{border-radius:.5rem;background:#f6f7f9;padding:.6rem .9rem;font-weight:600}
+
+.select2-container--bootstrap-5 .select2-selection{border-radius:.5rem;font-size:.875rem}
+
+@media (max-width:1199px){
+  .sidenav{transform:translateX(-120%)} .sidenav.show{transform:none}
+  .main{margin-left:0;padding:1rem} .topbar .menu-btn{display:inline-flex}
+}
+@media (prefers-reduced-motion:reduce){.sidenav{transition:none}}
