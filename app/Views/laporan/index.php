@@ -28,31 +28,20 @@
     </div>
     <div class="col-xl-6">
         <div class="card">
-            <div class="card-header"><h6 class="mb-0">Rekap bulanan</h6></div>
+            <div class="card-header"><h6 class="mb-0">Laporan bulanan (Excel)</h6></div>
             <div class="card-body">
-                <form method="get" action="<?= site_url('laporan/bulanan') ?>" target="_blank">
-                    <div class="mb-3">
-                        <label class="form-label" for="b_kegiatan">Kegiatan</label>
-                        <select class="form-select select2" id="b_kegiatan" name="kegiatan" required data-placeholder="Pilih kegiatan">
-                            <option></option>
-                            <?php foreach ($kegiatan as $k) : ?><option value="<?= $k['id'] ?>"><?= esc($k['nama_kegiatan']) ?></option><?php endforeach; ?>
-                        </select>
-                    </div>
+                <p class="text-muted">Satu file Excel berisi rekap bulanan dan semua laporan mingguan dari seluruh kegiatan di bulan itu. Kode rekening, No. TB, dan tanggal lunas diisi langsung di Excel.</p>
+                <form method="get" action="<?= site_url('laporan/bulanan') ?>">
                     <div class="row g-3 mb-3">
-                        <div class="col-6">
+                        <div class="col-7">
                             <label class="form-label" for="bulan">Bulan</label>
                             <select class="form-select" id="bulan" name="bulan">
                                 <?php for ($b = 1; $b <= 12; $b++) : ?><option value="<?= $b ?>" <?= $b === (int) date('n') ? 'selected' : '' ?>><?= bulan_indo($b) ?></option><?php endfor; ?>
                             </select>
                         </div>
-                        <div class="col-6"><label class="form-label" for="tahun">Tahun</label><input class="form-control" type="number" id="tahun" name="tahun" value="<?= date('Y') ?>" min="2001" max="2099"></div>
+                        <div class="col-5"><label class="form-label" for="tahun">Tahun</label><input class="form-control" type="number" id="tahun" name="tahun" value="<?= date('Y') ?>" min="2001" max="2099"></div>
                     </div>
-                    <div class="row g-3 mb-3">
-                        <div class="col-6"><label class="form-label" for="b_kode">Kode rekening</label><input class="form-control" id="b_kode" name="kode_rekening"></div>
-                        <div class="col-6"><label class="form-label" for="b_tb">No. TB</label><input class="form-control" id="b_tb" name="no_tb"></div>
-                    </div>
-                    <div class="mb-3"><label class="form-label" for="tgl_lunas">Tanggal lunas dibayar</label><input class="form-control" type="date" id="tgl_lunas" name="tgl_lunas" value="<?= date('Y-m-d') ?>"></div>
-                    <button class="btn btn-gradient" type="submit"><i class="bi bi-printer me-1"></i>Tampilkan rekap</button>
+                    <button class="btn btn-gradient" type="submit"><i class="bi bi-file-earmark-excel me-1"></i>Unduh Excel</button>
                 </form>
             </div>
         </div>

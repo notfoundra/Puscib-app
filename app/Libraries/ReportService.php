@@ -66,6 +66,7 @@ class ReportService
         $kec   = setting('Instansi.kecamatan');
 
         $items = [];
+        $minggu = [];
         $total = 0;
         $kegiatan = '';
         $tidakCocok = [];
@@ -87,6 +88,7 @@ class ReportService
                     'dari'    => $d['dari'],
                     'sampai'  => $d['sampai'],
                 ];
+                $minggu[]   = $d;
                 $total     += $d['grand_total'];
                 $tidakCocok = $tidakCocok + $d['tidak_cocok'];
             }
@@ -98,8 +100,50 @@ class ReportService
             'kegiatan'    => $kegiatan,
             'periode'     => strtoupper(bulan_indo($bulan)) . ' ' . $tahun,
             'items'       => $items,
+            'minggu'      => $minggu,   // laporan mingguan lengkap, urut tanggal
             'total'       => $total,
             'terbilang'   => terbilang_rupiah($total),
+            'tidak_cocok' => $tidakCocok,
+        ];
+    }
+
+    /**
+     * Semua kegiatan yang punya surat jalan di bulan itu: rekap bulanan + semua laporan mingguannya.
+     * Urut nama kegiatan.
+     */
+    public function bulananSemua(int $tahun, int $bulan): array
+    {
+        $awal  = new DateTimeImmutable(sprintf('%04d-%02d-01', $tahun, $bulan));
+        $akhir = $awal->modify('last day of this month');
+
+        $ids = $this->db->table('task t')
+            ->select('t.id_kegiatan')->distinct()
+            ->join('master_kegiatan k', 'k.id = t.id_kegiatan')
+            ->where('t.tanggal >=', $awal->format('Y-m-d') . ' 00:00:00')
+            ->where('t.tanggal <=', $akhir->format('Y-m-d') . ' 23:59:59')
+            ->orderBy('k.nama_kegiatan', 'ASC')
+            ->get()->getResultArray();
+
+        $kegiatan   = [];
+        $total      = 0;
+        $tidakCocok = [];
+
+        foreach ($ids as $r) {
+            $b = $this->bulanan((int) $r['id_kegiatan'], $tahun, $bulan);
+            if ($b['items'] === []) {
+                continue;
+            }
+            $kegiatan[] = $b;
+            $total     += $b['total'];
+            $tidakCocok = $tidakCocok + $b['tidak_cocok'];
+        }
+
+        return [
+            'tahun'       => $tahun,
+            'bulan'       => $bulan,
+            'periode'     => strtoupper(bulan_indo($bulan)) . ' ' . $tahun,
+            'kegiatan'    => $kegiatan,
+            'total'       => $total,
             'tidak_cocok' => $tidakCocok,
         ];
     }
@@ -178,6 +222,7 @@ class ReportService
             'pembuat'      => $list[0] ?? null,
             'jumlah_orang' => count($list),
             'tanggal_text' => daftar_tanggal_indo($tanggal),
+            'tanggal_pertama' => $tanggal === [] ? null : substr((string) min($tanggal), 0, 10),
             'tanggal_terakhir' => $tanggal === [] ? null : substr((string) max($tanggal), 0, 10),
             'grand_total'  => $grand,
             'terbilang'    => terbilang_rupiah($grand),
